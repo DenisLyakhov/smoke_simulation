@@ -1,114 +1,81 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper, 12pt]{scrartcl}
 \usepackage[polish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{indentfirst}
 \usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
-\usepackage{amsmath}
-\usepackage{hyperref}
 \usepackage{enumerate}
-\usepackage{graphicx}
+\usepackage{hyperref}
 
-\title{Symulacja rozprzestrzeniania dymu}
+
+\title{Symulacja rozprzestrzeniania się dymu w sali AGH B1 H.24}
 \author{Autorzy: Michał Kowalczyk, Kacper Kontny, Denis Lyakhov}
 \date{\today}
+
+
 \begin{document}
 	\maketitle
 	
-	\section{Cele}
-	\begin{enumerate}[i.]
-	    \item Głównym zadaniem w tym projekcie jest stworzenie trójwymiarowego modelu rozprzestrzeniania się dymu w pomieszczeniu.
-        \item Model powinien uwzględniać takie czynniki jak temperaturę czy kierunek ruchu powietrza.
-        \item W ramach projektu należy opracować model i przygotować symulację 3D.
-	\end{enumerate}
+	\begin{section}{Cel}
+		Głównym założeniem projektu jest stworzenie trójwymiarowego modelu sali wykładowej, a następnie symulacja rozprzestrzeniania się dymu w wyniku wybuchu pożaru w zadanych warunkach. 
+	\end{section}
 
-	
-	\section{Wprowadzenie}
-	
-	
-	Większość nowoczesncyh metod symulacji nie tylko dymu, ale też gazów i
-	płynów są oparte na tzw. równaniu Naviera-Stokes'a. Za ich pomocą można symulować rozprzestrzenianie się cieczy i gazów w 2D i 3D.
-	
-	\vspace{5mm}
-	
-	Równanie Navier-Stokes'a - w mechanice płynów - równanie różniczkowe
-	cząstkowe, opisujące fizykę cieczy. Mówiąc dokładniej, opisuje
-	zmianę prędkości przepływu w czasie. Mając aktualny stan prędkości i zbiór sił, rownania te mogą nam powiedzieć dokładnie, jak zmienia się prędkość w każdym nieskończenie małym przedziale czasu.
-	
-	Równania Navier-Stokes'a wyglądają następująco:
-	
-	\begin{equation}
-	    \frac{\partial u}{\partial t} = -(u \cdot \nabla)u+\nu\nabla^{2}u+f
-	\end{equation}
-	
-	\begin{equation}
-	    \frac{\partial \rho}{\partial t}=-(u\cdot\nabla)\rho+\kappa\nabla^{2}\rho + S
-	\end{equation}
-	
-	\vspace{5mm}
+	\begin{section}{Założenia}
+		\begin{enumerate}
+			\item Model sali wykładowej wzorowany jest na sali H24 znajdującej się w budynku B1 na terenie kampusu Akademii Górniczo-Hutniczej.
+			\item Źródłem dymu jest powierzchnia płaska znajdująca się na podłodze pomiędzy stołem wykładowcy a ławkami uczestników, a więc w najniższym punkcie sali.
+			\item Dla uproszczenia symulacji intensywność wydobywania się dymu ze źródła nie zmienia się wraz ze spadkiem zawartości tlenu w badanej atmosferze.
+			\item Dla danych scenariuszy zostanie wykonany pomiar temperatury w zadanych punktach przestrzeni.
+		\end{enumerate}
+	\end{section}
 
-	Pierwsze równanie opisuje zmianę prędkości, a drugie - gęstości.
+	\begin{section}{Przebieg symulacji}
+		Wykonane zostaną symulacje różnych scenariuszy:
+		\begin{enumerate}
+			\item Źródło dymu niezmienne w czasie, zamknięty obieg powietrza w sali
+			\item Źródło dymu ugaszone po pewnym czasie, zamknięty obieg powietrza w sali
+			\item Źródło dymu ugaszone po pewnym czasie, otworzenie klapy dymowej lub okna sali w pewnej chwili
+			\item Źródło dymu ugaszone po pewnym czasie, włączenie wentylatora oddymiającego w pewnej chwili
+		\end{enumerate}
+		Symulacja zostanie przeprowadzona przy użyciu programu PyroSim bazującego na silniku FDS (Fire Dynamics Simulator)
+	\end{section}
+
+	\begin{section}{Wyniki symulacji}
+		\textit{Wyniki obejmą:
+			\begin{enumerate}
+				\item pomiary temperatur oraz czasy tych pomiarów
+				\item graficzne porównanie temperatury panującej w pomieszczeniu
+				\item graficzne porównanie poziomu zadymienia w funkcji czasu
+			\end{enumerate}
+		}
+	\end{section}
 	
-	\vspace{5mm}
-	
-	Aby mieć możliwość rozwiązywania takich równań w czasie rzeczywistym,
-	posługujemy algorytmami numerycznymi.
-	
-	\vspace{5mm}
-	
-	Ale mamy problem. Chociaż możemy przewidzieć zachowanie się prędkości
-	przepływu cieczy w nieskońcenie małych przedziałach czasu, w praktyce we
-	współczesnym świecie nie dysponujemy (i raczej nigdy nie będziemy)
-	komputerami, posiadającymi moc obliczeniową wystarczającą do obliczenia
-	zachowania się każdej małej cząstecki płynu albo gazu na poziome
-	molekularnym. W związku z tym, aby rozwiązać ten problem musimy
-	zoptymalizować naszą symulację.
-	
-	\vspace{5mm}
-	
-	Zamiast milionów cząsteczek dymu, nasza
-	symulacja komputerowa będzie posiadać siatkę ze skończoną liczbą komórek.
-	Gęstość i prędkość każdej "części" naszego dymu zostaną zapisane w środku
-	każdej z naszych komórek (rys. 1).
-	
-    \vspace{5mm}
-    
-    W taki sposób znacznie zmniejszymy obciążenia obliczeniowe,
-    co pozwoli nam na urochomienie symulacji w czasie rzeczywistym.
-    
-    \begin{figure}
-    \centerline{\includegraphics[scale=2]{grid2.png}}
-    \caption{Siatka 2D N*N}
-    \label{fig:siatka2d}
-    \end{figure}
-	
-	
-	\section{Tytuł}
-	Tekst tytułu
-	
-	
-	\pagebreak
-	\begin{thebibliography}{15}
-	
-	    \bibitem{id}
-		Eren Algan, \textit{REAL-TIME SMOKE SIMULATION},
-		\texttt{\href{http://repository.bilkent.edu.tr/bitstream/handle/11693/15609/0006332.pdf?sequence=1&isAllowed=y}{link}}.
+	\begin{section}{Opracowanie wyników i wnioski}
+		\textit{Opracowanie obejmie:
+			\begin{enumerate}
+				\item porównanie temperatur na początku, w trakcie i na końcu symulacji
+				\item wpływ różnych metod na szybkość oddymiania pomieszczenia
+				\item wpływ czasu potrzebnego na wykrycie i ugaszenie źródła dymu na temperatury i zadymienie
+			\end{enumerate}
+		}
+	\end{section}
+
+	\begin{section}{Źródła}
 		
-		\bibitem{id}
-		Jos Stam, \textit{Real-Time Fluid Dynamics for Games}.
-		
-		\bibitem{id}
-		Marinus Rorbech, \textit{REAL-TIME SIMULATION OF SMOKE USING GRAPHICS HARDWARE},
-		\texttt{\href{http://image.diku.dk/projects/media/roerbech.04.pdf}{link}}.
-		
-		\bibitem{id}
-		Ronald Fedkiw, Jos Stam, Henrik Wann Jensen, \textit{Visual Simulation of Smoke},
-		\texttt{\href{http://graphics.ucsd.edu/~henrik/papers/smoke/smoke.pdf}{link}}.
-		
-		\bibitem{id}
-		Michael Ash, \textit{Simulation and Visualization of a 3D Fluid},
-		\texttt{\href{https://www.mikeash.com/thesis/thesis-en.pdf}{link}}.
-		
-	\end{thebibliography}
+		PyroSim Fire Dynamics and Smoke Control by Thunderhead Engineering Consultants, Inc. \textit{\href{https://www.thunderheadeng.com/pyrosim/}{link}}.
+		\begin{thebibliography}{15}
+			\bibitem{id}
+				Eren Algan, \textit{REAL-TIME SMOKE SIMULATION},
+				\textit{\href{http://repository.bilkent.edu.tr/bitstream/handle/11693/15609/0006332.pdf?sequence=1&isAllowed=y}{link}}.
+				
+			\bibitem{id2}
+				Jos Stam, \textit{Real-Time Fluid Dynamics for Games}.
+				
+			\bibitem{id3}
+				Marinus Rorbech, \textit{REAL-TIME SIMULATION OF SMOKE USING GRAPHICS HARDWARE},
+				\textit{\href{http://image.diku.dk/projects/media/roerbech.04.pdf}{link}}.
+		\end{thebibliography}
+	\end{section}
 	
+	
+
 \end{document}
