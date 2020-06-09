@@ -1,7 +1,11 @@
-# Smoke Simulation
+# Smoke Simulation (H24)
 
-H24_Without_Windows Video Result: https://youtu.be/4T4AN-fbDuw
+I. Źródło dymu niezmienne w czasie, zamknięty obeig powietrza: https://youtu.be/rbUKbSGOZaU
 
-H24_With_Windows_And_Vents_Delayed Result: https://youtu.be/bJwztE4wD90
+II. Źródło dymu ugaszone po pewnym czasie, zamknięty obeig powietrza: https://youtu.be/dyf3bk-ihEo
+
+III. Źródło dymu ugaszone po pewnym czasie, otworzenie okien sali: https://youtu.be/C-aVhG4EdZU
+
+IV. Źródło dymu ugaszone po pewnym czasie, włączenie wentylatora oddymiającego: https://youtu.be/5EApf4Ir77w
 
 
